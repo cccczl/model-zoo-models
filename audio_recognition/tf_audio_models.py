@@ -68,10 +68,7 @@ def prepare_model_settings(label_count, sample_rate, clip_duration_ms,
     fft_bin_count = 1 + (_next_power_of_two(window_size_samples) / 2)
     average_window_width = int(math.floor(fft_bin_count / feature_bin_count))
     fingerprint_width = int(math.ceil(fft_bin_count / average_window_width))
-  elif preprocess == 'mfcc':
-    average_window_width = -1
-    fingerprint_width = feature_bin_count
-  elif preprocess == 'micro':
+  elif preprocess in ['mfcc', 'micro']:
     average_window_width = -1
     fingerprint_width = feature_bin_count
   else:
@@ -193,10 +190,7 @@ def create_conv_model(fingerprint_input, model_settings, is_training):
     TensorFlow node outputting logits results, and optionally a dropout
     placeholder.
   """
-  dropout_prob = 0 
-  if is_training:
-    dropout_prob = 0.5
-  
+  dropout_prob = 0.5 if is_training else 0
   input_frequency_size = model_settings['fingerprint_width']
   input_time_size = model_settings['spectrogram_length']
   fingerprint_4d = tf.reshape(fingerprint_input,

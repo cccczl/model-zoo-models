@@ -112,10 +112,9 @@ def main(_):
     if FLAGS.checkpoint:
         models.load_variables_from_checkpoint(sess, FLAGS.checkpoint)
         start_step = global_step.eval(session=sess)
-        tf.logging.info(
-            'Checkpoint: {}'.format(FLAGS.checkpoint))
+        tf.logging.info(f'Checkpoint: {FLAGS.checkpoint}')
 
-    tf.logging.info('Recovering checkpoint from step: {}'.format(start_step))
+    tf.logging.info(f'Recovering checkpoint from step: {start_step}')
 
 
     input_features = audio_processor.get_features_for_wav(wav_file, model_settings, sess)

@@ -15,9 +15,7 @@ def get_model():
     base_model = MobileNet(input_tensor=input_tensor, weights='imagenet', include_top=True)
     x = base_model.output
 
-    updatedModel = Model(base_model.input, x)
-
-    return updatedModel
+    return Model(base_model.input, x)
 
 
 
@@ -32,7 +30,7 @@ def saveImagenetModel():
     compile_model(fitModel)
 
     fitModel.save(output_model_path, include_optimizer=False)
-    print("Saved trained model to {}".format(output_model_path))
+    print(f"Saved trained model to {output_model_path}")
 
 
 def main():

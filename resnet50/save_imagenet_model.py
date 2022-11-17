@@ -10,10 +10,9 @@ from tensorflow.keras.optimizers import Adadelta
 def get_model():
     input_tensor = Input(shape=(224, 224, 3))  # this assumes K.image_data_format() == 'channels_last'
 
-    # create the base pre-trained model
-    base_model = ResNet50(input_tensor=input_tensor, weights='imagenet', include_top=True)
-
-    return base_model
+    return ResNet50(
+        input_tensor=input_tensor, weights='imagenet', include_top=True
+    )
 
 
 def compile_model(compiledModel):
@@ -27,7 +26,7 @@ def saveImagenetModel():
     compile_model(fitModel)
 
     fitModel.save(output_model_path, include_optimizer=False)
-    print("Saved trained model to {}".format(output_model_path))
+    print(f"Saved trained model to {output_model_path}")
 
 
 def main():

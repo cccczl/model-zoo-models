@@ -10,10 +10,9 @@ from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2
 def get_model():
     input_tensor = Input(shape=(224, 224, 3))  # this assumes K.image_data_format() == 'channels_last'
 
-    # create the base pre-trained model
-    base_model = MobileNetV2(input_tensor=input_tensor, weights='imagenet', include_top=True)
-
-    return base_model
+    return MobileNetV2(
+        input_tensor=input_tensor, weights='imagenet', include_top=True
+    )
 
 
 def compile_model(compiledModel):
@@ -27,7 +26,7 @@ def saveImagenetModel():
     compile_model(fitModel)
 
     fitModel.save(output_model_path, include_optimizer=False)
-    print("Saved trained model to {}".format(output_model_path))
+    print(f"Saved trained model to {output_model_path}")
 
 
 def main():

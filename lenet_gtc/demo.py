@@ -36,7 +36,7 @@ args = parser.parse_args()
 tf.compat.v1.disable_v2_behavior()
 tf.compat.v1.disable_eager_execution()
 sess = tf.compat.v1.InteractiveSession()
-print("Graph file Dir: {}".format(args.input_model))
+print(f"Graph file Dir: {args.input_model}")
 
 # Start the Session
 try:
@@ -69,4 +69,4 @@ top_values_index = sorted(range(len(preds)), key=lambda i: preds[i])[-5:]
 for i in top_values_index:
     label = class_names[i]
     score = preds[i]
-    print("index  {}\t{}\t{}".format(i, score, label))
+    print(f"index  {i}\t{score}\t{label}")

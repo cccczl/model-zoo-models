@@ -23,7 +23,7 @@ def evaluateMNIST(args):
     ###############################
     #   Load the model
     ###############################
-    print("Graph file Dir: {}".format(input_model))
+    print(f"Graph file Dir: {input_model}")
 
     # Start the Session
     sess = tf.compat.v1.InteractiveSession()
@@ -64,7 +64,7 @@ def evaluateMNIST(args):
     output = sess.graph.get_tensor_by_name('Softmax:0')
     dict_eval = {input_tensor : x_train}
     train_prediction = sess.run(output, feed_dict = dict_eval)
-    
+
     print('top1 accuracy for train set: ', np.sum(top1_acc(y_train,train_prediction).eval())/len(x_train))
     print('top5 accuracy for train set: ', np.sum(top5_acc(y_train,train_prediction).eval())/len(x_train))
     dict_eval = {input_tensor : x_test}

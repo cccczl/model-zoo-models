@@ -30,7 +30,7 @@ def main():
     for i in top_values_index:
         label = class_names[i]
         score = preds[i]
-        print("Index  {}\t{}\t{}".format(i, score, label))
+        print(f"Index  {i}\t{score}\t{label}")
 
 
 def get_cli_arguments():

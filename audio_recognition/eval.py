@@ -112,10 +112,9 @@ def main(_):
     if FLAGS.checkpoint:
         models.load_variables_from_checkpoint(sess, FLAGS.checkpoint)
         start_step = global_step.eval(session=sess)
-        tf.logging.info(
-            'Checkpoint: {}'.format(FLAGS.checkpoint))
+        tf.logging.info(f'Checkpoint: {FLAGS.checkpoint}')
 
-    tf.logging.info('Training from step: {}'.format(start_step))
+    tf.logging.info(f'Training from step: {start_step}')
 
     set_size = audio_processor.set_size('testing')
     tf.logging.info('set_size=%d', set_size)

@@ -28,9 +28,7 @@ def get_model(num_classes):
     x = GlobalAveragePooling2D()(x)
     x = Dense(num_classes, activation='softmax')(x)  # final layer with softmax activation
 
-    updatedModel = Model(base_model.input, x)
-
-    return updatedModel
+    return Model(base_model.input, x)
 
 
 def compile_model(compiledModel):
@@ -79,7 +77,10 @@ def modelFitGenerator():
     test_classes = len(set(validation_generator.classes))
 
     if train_classes != test_classes:
-        print('number of classes in train and test do not match, train {}, test {}'.format(train_classes, test_classes))
+        print(
+            f'number of classes in train and test do not match, train {train_classes}, test {test_classes}'
+        )
+
         exit(1)
 
     # save class names list before training
@@ -94,7 +95,7 @@ def modelFitGenerator():
     labels_txt = u"\n".join(labels)
     with open(output_class_names_path, 'w') as classes_f:
         classes_f.write(labels_txt)
-    print("Saved class names list file to {}".format(output_class_names_path))
+    print(f"Saved class names list file to {output_class_names_path}")
 
     fitModel = get_model(num_classes=train_classes)
     compile_model(fitModel)
@@ -111,7 +112,7 @@ def modelFitGenerator():
     )
 
     fitModel.save(output_model_path, include_optimizer=False)
-    print("Saved trained model to {}".format(output_model_path))
+    print(f"Saved trained model to {output_model_path}")
 
 
 def main():

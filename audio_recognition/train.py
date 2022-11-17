@@ -136,10 +136,8 @@ def main(_):
         saver = tf.train.Saver(tf.global_variables())
 
         merged_summaries = tf.summary.merge_all(scope='eval')
-        train_writer = tf.summary.FileWriter(summaries_dir + '/train',
-                                                       sess.graph)
-        validation_writer = tf.summary.FileWriter(
-            summaries_dir + '/validation')
+        train_writer = tf.summary.FileWriter(f'{summaries_dir}/train', sess.graph)
+        validation_writer = tf.summary.FileWriter(f'{summaries_dir}/validation')
 
     tf.global_variables_initializer().run()
 
@@ -148,21 +146,21 @@ def main(_):
     if FLAGS.start_checkpoint:
         models.load_variables_from_checkpoint(sess, FLAGS.start_checkpoint)
         start_step = global_step.eval(session=sess)
-        tf.logging.info(
-            'Checkpoint: {}'.format(FLAGS.start_checkpoint))
+        tf.logging.info(f'Checkpoint: {FLAGS.start_checkpoint}')
 
-    tf.logging.info('Training from step: {}'.format(start_step))
+    tf.logging.info(f'Training from step: {start_step}')
 
     if not FLAGS.is_test:
         # Save graph.pbtxt.
-        tf.io.write_graph(sess.graph_def, FLAGS.train_dir,
-                          FLAGS.model_architecture + '.pbtxt')
+        tf.io.write_graph(
+            sess.graph_def,
+            FLAGS.train_dir,
+            f'{FLAGS.model_architecture}.pbtxt',
+        )
+
 
         # Save list of words.
-        with gfile.GFile(
-                os.path.join(FLAGS.train_dir,
-                             FLAGS.model_architecture + '_labels.txt'),
-                'w') as f:
+        with gfile.GFile(os.path.join(FLAGS.train_dir, f'{FLAGS.model_architecture}_labels.txt'), 'w') as f:
             f.write('\n'.join(audio_processor.words_list))
 
     # Training loop.
@@ -234,8 +232,10 @@ def main(_):
             # Save the Model checkpoint periodically.
             if (training_step % FLAGS.save_step_interval == 0 or
                     training_step == training_steps_max):
-                checkpoint_path = os.path.join(FLAGS.train_dir,
-                                               FLAGS.model_architecture + '.ckpt')
+                checkpoint_path = os.path.join(
+                    FLAGS.train_dir, f'{FLAGS.model_architecture}.ckpt'
+                )
+
                 tf.logging.info('Saving to "%s-%d"', checkpoint_path,
                                           training_step)
                 saver.save(sess, checkpoint_path, global_step=training_step)

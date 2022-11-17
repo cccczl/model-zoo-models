@@ -10,10 +10,10 @@ import os
 
 def save_config(base_dir, args):
     # [print(vals) for vals in vars(args)]
-    path = base_dir + '/' + args.name_of_experiment + '/'
-    with open(path + 'config.txt', 'w') as f:
+    path = f'{base_dir}/{args.name_of_experiment}/'
+    with open(f'{path}config.txt', 'w') as f:
         for vals in vars(args):
-            f.write(str(vals) + ' ' + str(getattr(args, vals)))
+            f.write(f'{str(vals)} {str(getattr(args, vals))}')
             f.write('\n')
     f.close()
 
@@ -36,9 +36,8 @@ def config(name_of_experiment='lenet_on_mnist',
         raise ValueError('pass correct image size of the data')
 
     parser = argparse.ArgumentParser()
-    name_of_experiment = name_of_experiment + '_' + 'adam' + '_weight_decay_' + str(
-        weight_decay) + '_lam_bl_' + str(lambda_bit_loss) + '_lam_dl_' + str(
-        lambda_distillation_loss)
+    name_of_experiment = f'{name_of_experiment}_adam_weight_decay_{str(weight_decay)}_lam_bl_{str(lambda_bit_loss)}_lam_dl_{str(lambda_distillation_loss)}'
+
 
     parser.add_argument(
         '--name_of_experiment',
@@ -90,9 +89,9 @@ def config(name_of_experiment='lenet_on_mnist',
     parser.add_argument("--print_layers_bits", default=True, type=bool, help="print bits per layer?")
     args = parser.parse_args()
     base_dir = args.basedirectory
-    path_expt = base_dir + '/' + args.name_of_experiment + '/'
-    model_path = path_expt + 'model/'
-    logs_path = path_expt + 'logs/'
+    path_expt = f'{base_dir}/{args.name_of_experiment}/'
+    model_path = f'{path_expt}model/'
+    logs_path = f'{path_expt}logs/'
     if not os.path.exists(path_expt):
         os.makedirs(path_expt)
         os.makedirs(model_path)

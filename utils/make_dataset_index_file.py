@@ -62,28 +62,27 @@ if __name__ == '__main__':
 
     input_dataset_path = args.input_dataset_path
     if not input_dataset_path.endswith('/'):
-        input_dataset_path = input_dataset_path + '/'
+        input_dataset_path = f'{input_dataset_path}/'
 
     class_names_txt = open(args.input_class_names_path, 'r').read()
     class_names = class_names_txt.split('\n')
 
     with open(args.output_dataset_index_path, 'w') as output_f:
 
-        image_files = glob(input_dataset_path + "**/*.*")
+        image_files = glob(f"{input_dataset_path}**/*.*")
         for file_name in image_files:
             basename = os.path.basename(file_name)
             # print(basename)
 
             if basename.startswith('.'):
                 continue  # hidden file
-            is_image = False
-            for ext in IMAGE_FILE_EXTENSIONS:
-                if file_name.lower().endswith(ext):
-                    is_image = True
-                    break
+            is_image = any(
+                file_name.lower().endswith(ext)
+                for ext in IMAGE_FILE_EXTENSIONS
+            )
 
             if not is_image:
-                print('not an image, skipping: {}'.format(file_name))
+                print(f'not an image, skipping: {file_name}')
                 continue  # skip things that arent images
 
             path_in_dataset = os.path.relpath(file_name, input_dataset_path)
@@ -92,7 +91,7 @@ if __name__ == '__main__':
             # print(parts)
 
             if len(parts) < 2:
-                print('Image file found not in a folder, aborting: ' + file_name)
+                print(f'Image file found not in a folder, aborting: {file_name}')
                 exit(1)
 
             class_name = parts[0]
@@ -100,5 +99,5 @@ if __name__ == '__main__':
 
             class_index = class_names.index(class_name)
 
-            line = "{} {}\n".format(path_in_dataset, class_index)
+            line = f"{path_in_dataset} {class_index}\n"
             output_f.write(line)

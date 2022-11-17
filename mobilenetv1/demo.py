@@ -48,4 +48,4 @@ top_values_index = sorted(range(len(preds)), key=lambda i: preds[i])[-5:]
 for i in top_values_index:
     label = class_names[i]
     score = preds[i]
-    print("index  {}\t{}\t{}".format(i, score, label))
+    print(f"index  {i}\t{score}\t{label}")
